@@ -12,7 +12,7 @@ private:
     std::vector<entity_t> entities;
 
 private:
-    bool compareZ(entity_t i, entity_t j);
+    static bool compareZ(entity_t i, entity_t j);
 public:
     void addEntity(entity_t entity);
     void render();
