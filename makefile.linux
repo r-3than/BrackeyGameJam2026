@@ -1,0 +1,61 @@
+ # Compiler
+CXX := g++
+
+CFLAGS_RELEASE := -Wall -Wextra -O3
+CFLAGS_DEBUG := -Wall -Wextra -g
+
+SRC_DIR := src
+OBJ_DIR := obj
+TARGET := main
+
+INCLUDES := -I./include
+
+# -------- Platform Detection --------
+ifeq ($(OS), Windows_NT)
+    LIBRARY_PATHS := -Llib/windows
+    LDFLAGS := -lraylib -lgdi32 -lwinmm
+    TARGET_DIR := build/windows
+    EXE := .exe
+    MKDIR := mkdir
+    RM := rmdir /S /Q
+else
+    LIBRARY_PATHS := -Llib/linux
+    LDFLAGS := ./lib/linux/libraylib.a -lGL -lm -lpthread -ldl -lrt -lX11
+    TARGET_DIR := build/linux
+    EXE :=
+    MKDIR := mkdir -p
+    RM := rm -rf
+endif
+
+# -------- Recursive Wildcard (Make-only, cross-platform) --------
+rwildcard = $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2) $(filter $(subst *,%,$2),$d))
+
+SRCS := $(call rwildcard,$(SRC_DIR)/,*.cpp)
+OBJS := $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRCS))
+
+# -------- Build Targets --------
+all: release
+
+release: CFLAGS := $(CFLAGS_RELEASE)
+release: $(TARGET)
+
+debug: CFLAGS := $(CFLAGS_DEBUG)
+debug: $(TARGET)
+
+# Create build directory
+$(TARGET_DIR):
+	$(MKDIR)	$(TARGET_DIR)
+
+# Compile (auto-create subfolders)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
+	$(MKDIR) $(dir $@)
+	$(CXX) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+# Link
+$(TARGET): $(OBJS) | $(TARGET_DIR)
+	$(CXX) $(CFLAGS) $(LIBRARY_PATHS) $^ -o $(TARGET_DIR)/$(TARGET)$(EXE) $(LDFLAGS)
+clean:
+	$(RM) $(OBJ_DIR)
+	$(RM) build
+
+.PHONY: all release debug clean
