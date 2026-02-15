@@ -9,11 +9,13 @@
 
 class renderer_t {
 private:
-    std::vector<entity_t> entities;
+    std::vector<entity_t>* entities;
 
 private:
-    static bool compareZ(entity_t i, entity_t j);
+    static bool compareZ(entity_t i, entity_t j); 
 public:
+    renderer_t();
+    renderer_t(std::vector<entity_t>* entities);
     void addEntity(entity_t entity);
     void render();
 };

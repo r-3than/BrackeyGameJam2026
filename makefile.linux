@@ -1,5 +1,5 @@
  # Compiler
-CXX := g++
+CXX := g++ -g
 
 CFLAGS_RELEASE := -Wall -Wextra -O3
 CFLAGS_DEBUG := -Wall -Wextra -g
