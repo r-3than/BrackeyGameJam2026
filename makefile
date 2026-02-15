@@ -1,75 +1,55 @@
 # Compiler
 CC := g++
 
-# Compiler flags for release mode
 CFLAGS_RELEASE := -Wall -Wextra -O3
-
-# Compiler flags for debug mode
 CFLAGS_DEBUG := -Wall -Wextra -g
 
-ifeq ($(OS), Windows_NT)	
-	# Library paths
-	LIBRARY_PATHS := -L lib
-	# Linker flags
+ifeq ($(OS), Windows_NT)
+	LIBRARY_PATHS := -L lib/windows
 	LDFLAGS := -lraylib -lgdi32 -lwinmm
-	# Target directory
 	TARGET_DIR := build/windows
 else
-	# Library paths
-	LIBRARY_PATHS :=
-	# Linker flags
-	LDFLAGS := 
-	# Target directory
+	# Linux
+	LIBRARY_PATHS :=-L./lib/linux
+	LDFLAGS := ./lib/linux/libraylib.a -lGL -lm -lpthread -ldl -lrt -lX11
 	TARGET_DIR := build/linux
 endif
 
-
-# Include directories
 INCLUDES := -I./include
-
-# Source files directory
 SRC_DIR := src
-
-# Source files
-SRCS := $(wildcard $(SRC_DIR)/*.cpp)
-
-# Object files directory
 OBJ_DIR := obj
-
-# Object files
-OBJS := $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SRCS))
-
-
-
-# Binary output
 TARGET := main
 
-# Default target
+SRCS := $(shell find $(SRC_DIR) -name '*.cpp')
+OBJS := $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRCS))
+
 all: release
 
-# Release mode
 release: CFLAGS := $(CFLAGS_RELEASE)
 release: $(TARGET)
 
-# Debug mode
 debug: CFLAGS := $(CFLAGS_DEBUG)
 debug: $(TARGET)
 
-# Compile source files into object files
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
+
+$(TARGET_DIR):
+	mkdir -p $(TARGET_DIR)
+
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
+	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-# Link object files into the final binary
-$(TARGET): $(OBJS)
+$(TARGET): $(OBJS) | $(TARGET_DIR)
 	$(CC) $(CFLAGS) $(LIBRARY_PATHS) $^ -o $(TARGET_DIR)/$@ $(LDFLAGS)
 
-# Clean build artifacts
 clean:
 ifeq ($(OS),Windows_NT)
-	@del /Q $(TARGET_DIR)/$(TARGET).exe 2>NUL || exit 0
-	@del /Q $(OBJ_DIR)\* 2>NUL || exit 0
+	@rmdir /S /Q $(OBJ_DIR) 2>NUL || exit 0
+	@rmdir /S /Q build 2>NUL || exit 0
 else
-	rm -f $(OBJ_DIR)/*.o $(TARGET_DIR)/$(TARGET)
+	rm -rf $(OBJ_DIR) build
 endif
 
 bear: clean
