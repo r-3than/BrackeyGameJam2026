@@ -9,9 +9,9 @@ CFLAGS_DEBUG := -Wall -Wextra -g
 
 ifeq ($(OS), Windows_NT)	
 	# Library paths
-	LIBRARY_PATHS := 
+	LIBRARY_PATHS := -L lib
 	# Linker flags
-	LDFLAGS := 
+	LDFLAGS := -lraylib -lgdi32 -lwinmm
 	# Target directory
 	TARGET_DIR := build/windows
 else
