@@ -1,0 +1,57 @@
+# Compiler
+CXX := g++
+
+# Compiler flags
+CFLAGS_RELEASE := -Wall -Wextra -O3
+CFLAGS_DEBUG := -Wall -Wextra -g
+
+# Directories
+SRC_DIR := src
+OBJ_DIR := obj
+TARGET_DIR := build/windows
+TARGET := main.exe
+
+# Includes and libraries
+INCLUDES := -I./include
+LIBRARY_PATHS := -Llib/windows
+LDFLAGS := -lraylib -lgdi32 -lwinmm
+
+# Windows commands
+MKDIR := if not exist "$(subst /,\,$1)" mkdir "$(subst /,\,$1)"
+RM := rmdir /S /Q
+
+# Recursive wildcard (Make-only)
+rwildcard = $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2) $(filter $(subst *,%,$2),$d))
+
+# Source and object files
+SRCS := $(call rwildcard,$(SRC_DIR)/,*.cpp)
+OBJS := $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRCS))
+
+# -------- Build Targets --------
+all: release
+
+release: CFLAGS := $(CFLAGS_RELEASE)
+release: $(TARGET)
+
+debug: CFLAGS := $(CFLAGS_DEBUG)
+debug: $(TARGET)
+
+# Create build directory
+$(TARGET_DIR):
+	if not exist "$(subst /,\,$(TARGET_DIR))" mkdir "$(subst /,\,$(TARGET_DIR))"
+
+# Compile source files (auto-create subfolders)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
+	if not exist "$(subst /,\,$(dir $@))" mkdir "$(subst /,\,$(dir $@))"
+	$(CXX) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+# Link
+$(TARGET): $(OBJS) | $(TARGET_DIR)
+	$(CXX) $(CFLAGS) $(LIBRARY_PATHS) $^ -o $(TARGET_DIR)/$(TARGET) $(LDFLAGS)
+
+# Clean
+clean:
+	$(RM) $(OBJ_DIR)
+	$(RM) $(TARGET_DIR)
+
+.PHONY: all release debug clean
