@@ -1,5 +1,4 @@
 build
 obj
 **/**.o
-lib
 run.exe
