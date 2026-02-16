@@ -18,10 +18,10 @@ public:
     GameManager(GameManager&&) = delete;
     GameManager& operator=(GameManager&&) = delete;
 
-    static std::vector<Texture2D> textures;
+    static Texture2D tilesheet;
 
     static void init() {
-        // do stuff
+        tilesheet = LoadTexture("res/Example2.png");
     }
     
     // Public methods
