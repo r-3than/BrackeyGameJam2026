@@ -8,7 +8,9 @@
 
 typedef enum properties {
     NONE,
-    CONTROL
+    CONTROL,
+    COLLIDE,
+    NOSHOW
 } properties_t;
 
 class image_t {
@@ -21,12 +23,12 @@ private:
 public:
     image_t(Texture2D *ptex, Rectangle psource);
     void render(Rectangle dest, float rot);
-
 };
 
 class entity_t {
 private:
     image_t *image;
+    Rectangle hitbox;
 
 public:
     float x;
@@ -38,7 +40,9 @@ public:
 
 public:
     entity_t(image_t *image);
+    entity_t(image_t *image, Rectangle phitbox);
     void setImage(image_t *pimage);
+    Rectangle getHitbox();
     void draw();
 
 };
