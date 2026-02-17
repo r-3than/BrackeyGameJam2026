@@ -215,6 +215,11 @@
 typedef struct Vector2 {
     float x;                // Vector x component
     float y;                // Vector y component
+    template<class Archive>
+    void serialize(Archive& archive)
+    {
+        archive(x,y); // serialize things by passing them to the archive
+    }
 } Vector2;
 
 // Vector3, 3 components
@@ -257,6 +262,11 @@ typedef struct Rectangle {
     float y;                // Rectangle top-left corner position y
     float width;            // Rectangle width
     float height;           // Rectangle height
+    template<class Archive>
+    void serialize(Archive& archive)
+    {
+        archive(x, y, width, height);
+    }
 } Rectangle;
 
 // Image, pixel data stored in CPU memory (RAM)
