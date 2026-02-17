@@ -4,7 +4,12 @@
 #include <vector>
 
 #include "raylib.h"
-#include "core/properties.h"
+//#include "core/properties.h"
+
+typedef enum properties {
+    NONE,
+    CONTROL
+} properties_t;
 
 class image_t {
 private:
@@ -19,12 +24,6 @@ public:
 
 };
 
-
-class properties_t {
-private:
-    std::vector<base_prop_t> props;
-};
-
 class entity_t {
 private:
     image_t *image;
@@ -35,7 +34,7 @@ public:
     float z;
     float rotation;
 
-    properties_t properties;
+    std::vector<properties_t> properties;
 
 public:
     entity_t(image_t *image);

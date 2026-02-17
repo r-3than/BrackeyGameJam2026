@@ -18,6 +18,8 @@ entity_t::entity_t(image_t *image)
     y = 0.0f;
     z = 0.0f;
     rotation = 0.0f;
+
+    properties = std::vector<properties_t>();
 }
 
 void entity_t::setImage(image_t *pimage)
