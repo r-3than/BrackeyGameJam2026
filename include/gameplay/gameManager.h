@@ -2,6 +2,7 @@
 #include <vector>
 #include <raylib.h>
 #include "gameplay/level.h"
+#include "core/entity_defs.h"
 
 class GameManager
 {
@@ -19,11 +20,15 @@ public:
     GameManager(GameManager&&) = delete;
     GameManager& operator=(GameManager&&) = delete;
 
-    static Texture2D tilesheet;
-    static level_t currentLevel;
+    static inline Texture2D tilesheet;
+    static inline level_t currentLevel;
+
+    static inline entity_defs_t entityDefs;
 
     static void init() {
         tilesheet = LoadTexture("res/Example2.png");
+        entityDefs = entity_defs_t();
+        entityDefs.init();
     }
     
     // Public methods

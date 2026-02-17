@@ -29,6 +29,12 @@ struct level_t {
 
     void addImage(image_t image);
 
+    template<class Archive>
+    void serialize(Archive& archive)
+    {
+        archive(data); // serialize things by passing them to the archive
+    }
+
 };
 
 #endif

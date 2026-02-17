@@ -17,6 +17,7 @@ public:
     renderer_t();
     renderer_t(std::vector<entity_t>* entities);
     void addEntity(entity_t entity);
+    void addEntity(entity_t *entity);
     void render();
 };
 

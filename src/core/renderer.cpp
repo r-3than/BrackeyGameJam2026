@@ -21,6 +21,11 @@ void renderer_t::addEntity(entity_t entity)
     entities->push_back(entity);
     std::sort(entities->begin(), entities->end(), compareZ);
 }
+void renderer_t::addEntity(entity_t* entity)
+{
+    entities->push_back(*entity);
+    std::sort(entities->begin(), entities->end(), compareZ);
+}
 void renderer_t::render()
 {
     for (entity_t entity : *entities)
