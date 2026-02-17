@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <raylib.h>
+#include "gameplay/level.h"
 
 class GameManager
 {
@@ -19,6 +20,7 @@ public:
     GameManager& operator=(GameManager&&) = delete;
 
     static Texture2D tilesheet;
+    static level_t currentLevel;
 
     static void init() {
         tilesheet = LoadTexture("res/Example2.png");

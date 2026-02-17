@@ -14,7 +14,7 @@ struct level_data_t {
     template<class Archive>
     void serialize(Archive& archive)
     {
-        archive(entities,imagesRect->getSource()); // serialize things by passing them to the archive
+        archive(entities,images); // serialize things by passing them to the archive
     }
 }; 
 
@@ -27,11 +27,7 @@ struct level_t {
 
     void addEntity(entity_t entity);
 
-    void addTexture(std::string filePath);
-
     void addImage(image_t image);
-
-    void addEntity(entity_t entity);
 
 };
 

@@ -17,6 +17,11 @@ public:
     image_t(Texture2D *ptex, Rectangle psource);
     void render(Rectangle dest, float rot);
     Rectangle getSource() { return source; }
+    template<class Archive>
+    void serialize(Archive& archive)
+    {
+        archive(origin, source);
+    }
 
 };
 
@@ -42,6 +47,12 @@ public:
     entity_t(image_t *image);
     void setImage(image_t *pimage);
     void draw();
+
+    template<class Archive>
+    void serialize(Archive& archive)
+    {
+        archive(x, y, z, rotation, properties);
+    }
 
 };
 
