@@ -1,8 +1,8 @@
-#include "levelLoader.h"
+#include "gameplay/levelLoader.h"
 
 levelLoader_t::levelLoader_t(){}
 
-void levelLoader_t::loadLevel(const char* filePath) {
+level_t levelLoader_t::loadLevel(const char* filePath) {
 
     // Load level data from the specified file path
     // For example, you can read a JSON or XML file and populate the currentLevel struct

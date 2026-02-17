@@ -16,6 +16,7 @@ private:
 public:
     image_t(Texture2D *ptex, Rectangle psource);
     void render(Rectangle dest, float rot);
+    Rectangle getSource() { return source; }
 
 };
 

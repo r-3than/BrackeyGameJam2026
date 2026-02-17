@@ -10,11 +10,9 @@
 #include "level.h"
 
 class levelLoader_t {
-private:
-    level_t currentLevel;
 public:
     levelLoader_t();
-    void loadLevel(const char* filePath);
+    level_t loadLevel(const char* filePath);
     void writeLevel(const char* filePath);
     void unloadLevel();
     
