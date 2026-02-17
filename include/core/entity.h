@@ -45,6 +45,7 @@ public:
 public:
     entity_t(image_t *image);
     void setImage(image_t *pimage);
+    image_t* getImage() { return image; }
     void draw();
 
     template<class Archive>
