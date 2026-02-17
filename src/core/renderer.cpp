@@ -13,7 +13,7 @@ renderer_t::renderer_t(std::vector<entity_t>* entities)
 
 bool renderer_t::compareZ(entity_t i, entity_t j)
 {
-    return (i.z > j.z);
+    return (i.z < j.z);
 }
 
 void renderer_t::addEntity(entity_t entity)
