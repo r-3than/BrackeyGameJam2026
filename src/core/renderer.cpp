@@ -23,9 +23,18 @@ void renderer_t::addEntity(entity_t entity)
 }
 void renderer_t::render()
 {
+    camera_t camera = {0,0,0,0};
     for (entity_t entity : *entities)
     {
-        entity.draw();
+        entity.draw(&camera);
+    }
+}
+
+void renderer_t::render(camera_t *camera)
+{
+    for (entity_t entity : *entities)
+    {
+        entity.draw(camera);
     }
 }
 

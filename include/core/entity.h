@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "raylib.h"
-//#include "core/properties.h"
+#include "core/camera.h"
 
 typedef enum properties {
     NONE,
@@ -20,9 +20,13 @@ private:
 
     Vector2 origin;
 
+    bool isAnimation;
+    int numFrames;
 public:
     image_t(Texture2D *ptex, Rectangle psource);
-    void render(Rectangle dest, float rot);
+    image_t(Texture2D *ptex, Rectangle psource, int pnumFrames);
+    //void nextFrame();
+    void render(Rectangle dest, float rot, int frame);
     Rectangle getSource() { return source; }
     template<class Archive>
     void serialize(Archive& archive)
@@ -43,6 +47,8 @@ public:
     float z;
     float rotation;
 
+    int frame;
+    
     std::vector<properties_t> properties;
 
 public:
@@ -51,7 +57,7 @@ public:
     void setImage(image_t *pimage);
     Rectangle getHitbox();
     image_t* getImage() { return image; }
-    void draw();
+    void draw(camera_t *camera);
 
     template<class Archive>
     void serialize(Archive& archive)
