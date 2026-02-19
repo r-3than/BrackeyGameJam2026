@@ -37,6 +37,8 @@ entity_t::entity_t(image_t *image)
     z = 0.0f;
     rotation = 0.0f;
     frame = 0;
+    physics = physics_t();
+    physics.drag = 0.1f;
 
     properties = std::vector<properties_t>();
     properties.push_back(COLLIDE);

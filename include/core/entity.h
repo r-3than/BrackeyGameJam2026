@@ -5,12 +5,15 @@
 
 #include "raylib.h"
 #include "core/camera.h"
+#include "core/physics.h"
 
 typedef enum properties {
     NONE,
     CONTROL,
     COLLIDE,
-    NOSHOW
+    NOSHOW,
+    PHYSICS,
+    NOMOVE
 } properties_t;
 
 class image_t {
@@ -48,6 +51,8 @@ public:
     float rotation;
 
     int frame;
+
+    physics_t physics;
     
     std::vector<properties_t> properties;
 
